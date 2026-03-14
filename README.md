@@ -1,10 +1,10 @@
-# PoGO Scout
+# Bulk Product
 
 Pokémon GO IV analysis and team optimization tool.
 
 ## Stack
 
-- **Backend:** Python 3.11+ / FastAPI / SQLAlchemy (async) / PostgreSQL
+- **Backend:** Python 3.14+ / FastAPI / SQLAlchemy (async) / PostgreSQL
 - **Frontend:** React (TBD)
 - **Linting/Formatting:** Ruff
 - **Type Checking:** mypy
