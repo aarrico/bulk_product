@@ -9,12 +9,12 @@ class Settings(BaseSettings):
     )
 
     # App
-    app_name: str = "PoGO Scout"
+    app_name: str = "Bulk Product"
     debug: bool = False
     api_v1_prefix: str = "/api/v1"
 
     # Database
-    database_url: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/pogo_scout"
+    database_url: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/bulk_product"
 
     # CORS — React dev server
     cors_origins: list[str] = ["http://localhost:5173"]
