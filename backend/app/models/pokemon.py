@@ -15,6 +15,27 @@ class ShadowStatus(StrEnum):
     PURIFIED = "purified"
 
 
+class Gender(StrEnum):
+    MALE = "male"
+    FEMALE = "female"
+    GENDERLESS = "genderless"
+
+
+class Size(StrEnum):
+    XXS = "xxs"
+    XS = "xs"
+    S = "s"
+    M = "m"
+    L = "l"
+    XL = "xl"
+    XXL = "xxl"
+
+
+class BestBuddyStatus(StrEnum):
+    NONE = "none"
+    ACHIEVED = "achieved"
+    ACTIVE = "active"
+
 class Pokemon(Base):
     __tablename__ = "pokemon"
 
@@ -26,6 +47,11 @@ class Pokemon(Base):
     stamina_iv: Mapped[int]
     level: Mapped[float] = mapped_column(Numeric(precision=3, scale=1))
     shadow_status: Mapped[ShadowStatus] = mapped_column(default=ShadowStatus.NORMAL)
+    lucky: Mapped[bool] = mapped_column(default=False)
+    best_buddy: Mapped[BestBuddyStatus] = mapped_column(default=BestBuddyStatus.NONE)
+    shiny: Mapped[bool] = mapped_column(default=False)
+    gender: Mapped[Gender]
+    size: Mapped[Size | None] = mapped_column(default=None)
     nickname: Mapped[str | None] = mapped_column(String(12))
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(

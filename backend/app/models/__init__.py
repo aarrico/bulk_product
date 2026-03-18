@@ -1,5 +1,5 @@
-from .pokemon import Pokemon, ShadowStatus
+from .pokemon import BestBuddyStatus, Gender, Pokemon, ShadowStatus
 from .pokemon_type import PokemonType
 from .species import Species
 
-__all__ = ["Pokemon", "PokemonType", "ShadowStatus", "Species"]
+__all__ = ["BestBuddyStatus", "Gender", "Pokemon", "PokemonType", "ShadowStatus", "Species"]
