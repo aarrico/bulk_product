@@ -48,7 +48,7 @@ select = [
     "T20",   # flake8-print (catches stray prints)
     "RUF",   # ruff-specific rules
 ]
-ignore = ["E501"]
+ignore = ["E501", "B008"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["app"]
