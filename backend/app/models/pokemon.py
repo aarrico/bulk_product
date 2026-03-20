@@ -41,7 +41,7 @@ class Pokemon(Base):
 
     id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid7)
     species_id: Mapped[int] = mapped_column(ForeignKey("species.id"), index=True)
-    species: Mapped[Species] = relationship()
+    species: Mapped[Species] = relationship(lazy="joined")
     attack_iv: Mapped[int]
     defense_iv: Mapped[int]
     stamina_iv: Mapped[int]
