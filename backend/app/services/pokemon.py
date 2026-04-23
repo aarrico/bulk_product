@@ -71,3 +71,6 @@ async def get_all_pokemon(db: AsyncSession, filters: PokemonFilter) -> Sequence[
 
     result = await db.execute(query)
     return result.scalars().all()
+
+async def sync_pokemon(db: AsyncSession, pkmn_data: list[PokemonCreate]):
+    pass
