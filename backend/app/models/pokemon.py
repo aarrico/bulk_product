@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime
+from datetime import date, datetime
 from enum import StrEnum
 
 from sqlalchemy import ForeignKey, Numeric, String, Uuid, func
@@ -53,6 +53,9 @@ class Pokemon(Base):
     gender: Mapped[Gender]
     size: Mapped[Size | None] = mapped_column(default=None)
     nickname: Mapped[str | None] = mapped_column(String(12))
+    height: Mapped[float | None] = mapped_column(Numeric(precision=5, scale=2), default=None)
+    weight: Mapped[float | None] = mapped_column(Numeric(precision=6, scale=2), default=None)
+    catch_date: Mapped[date | None] = mapped_column(default=None)
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(
         server_default=func.now(), onupdate=func.now()

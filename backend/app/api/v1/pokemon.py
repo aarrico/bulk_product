@@ -1,6 +1,7 @@
 import csv
 import io
 import uuid
+from datetime import datetime
 
 from fastapi import APIRouter, Depends, HTTPException, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -51,6 +52,10 @@ async def import_pokemon(file: UploadFile, db: AsyncSession = Depends(get_db)):
             except KeyError as e:
                 raise ValueError(f"Unexpected Shadow/Purified value: {shadow_val}") from e
 
+            height_raw = pkmn["Height"].removesuffix("m")
+            weight_raw = pkmn["Weight"].removesuffix("kg")
+            catch_date_raw = pkmn["Catch Date"]
+
             pkmn_data.append(PokemonCreate(
                 dex_number=int(pkmn["Pokemon"]),
                 attack_iv=int(pkmn["Atk IV"]),
@@ -60,6 +65,9 @@ async def import_pokemon(file: UploadFile, db: AsyncSession = Depends(get_db)):
                 gender=Gender(gender_map.get(pkmn["Gender"], "genderless")),
                 shadow_status=shadow_status,
                 lucky=pkmn["Lucky"] == "1",
+                height=float(height_raw) if height_raw else None,
+                weight=float(weight_raw) if weight_raw else None,
+                catch_date=datetime.strptime(catch_date_raw, "%m/%d/%Y").date() if catch_date_raw else None,
             ))
     except (ValueError, KeyError) as e:
         raise HTTPException(400, f"Malformed CSV: {e}") from e

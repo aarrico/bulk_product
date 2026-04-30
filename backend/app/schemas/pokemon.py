@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime
+from datetime import date, datetime
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -19,6 +19,9 @@ class PokemonBase(BaseModel):
     gender: Gender
     size: Size | None = None
     nickname: str | None = None
+    height: float | None = Field(default=None, gt=0)
+    weight: float | None = Field(default=None, gt=0)
+    catch_date: date | None = None
 
 
 class PokemonCreate(PokemonBase):
@@ -38,6 +41,12 @@ class PokemonFilter(BaseModel):
     stamina_iv_max: int | None = Field(default=None, ge=0, le=15)
     level_min: float | None = Field(default=None, ge=1, le=51)
     level_max: float | None = Field(default=None, ge=1, le=51)
+    height_min: float | None = Field(default=None, gt=0)
+    height_max: float | None = Field(default=None, gt=0)
+    weight_min: float | None = Field(default=None, gt=0)
+    weight_max: float | None = Field(default=None, gt=0)
+    catch_date_min: date | None = None
+    catch_date_max: date | None = None
     shadow_status: ShadowStatus | None = None
     lucky: bool | None = None
     best_buddy: BestBuddyStatus | None = None

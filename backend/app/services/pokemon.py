@@ -54,6 +54,18 @@ async def get_all_pokemon(db: AsyncSession, filters: PokemonFilter) -> Sequence[
         query = query.where(Pokemon.level >= filters.level_min)
     if filters.level_max is not None:
         query = query.where(Pokemon.level <= filters.level_max)
+    if filters.height_min is not None:
+        query = query.where(Pokemon.height >= filters.height_min)
+    if filters.height_max is not None:
+        query = query.where(Pokemon.height <= filters.height_max)
+    if filters.weight_min is not None:
+        query = query.where(Pokemon.weight >= filters.weight_min)
+    if filters.weight_max is not None:
+        query = query.where(Pokemon.weight <= filters.weight_max)
+    if filters.catch_date_min is not None:
+        query = query.where(Pokemon.catch_date >= filters.catch_date_min)
+    if filters.catch_date_max is not None:
+        query = query.where(Pokemon.catch_date <= filters.catch_date_max)
     if filters.shadow_status is not None:
         query = query.where(Pokemon.shadow_status == filters.shadow_status)
     if filters.lucky is not None:
