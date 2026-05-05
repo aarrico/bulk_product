@@ -1,5 +1,6 @@
 import json
 import math
+from bisect import bisect_right
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -14,6 +15,8 @@ def _load_cpm() -> dict[float, float]:
 
 CPM: dict[float, float] = _load_cpm()
 LEVELS: tuple[float, ...] = tuple(sorted(CPM.keys()))
+# Parallel to LEVELS, sorted ascending. Valid because CPM is monotonic in level.
+SORTED_CPMS: tuple[float, ...] = tuple(CPM[lvl] for lvl in LEVELS)
 
 
 @dataclass(frozen=True, slots=True)
@@ -51,7 +54,19 @@ def calculate_stat_product(base: BaseStats, ivs: IVs, level: float) -> float:
 
 
 def find_optimal_level(base: BaseStats, ivs: IVs, cp_cap: int) -> float | None:
-    for level in reversed(LEVELS):
-        if calculate_cp(base, ivs, level) <= cp_cap:
-            return level
+    k = (
+        (base.attack + ivs.attack)
+        * math.sqrt(base.defense + ivs.defense)
+        * math.sqrt(base.stamina + ivs.stamina)
+    )
+    cpm_max = math.sqrt(10 * cp_cap / k)
+    idx = bisect_right(SORTED_CPMS, cpm_max) - 1
+
+    # Floor() in calculate_cp can let the next level squeak under the cap, so
+    # check idx + 1 first and fall back to idx.
+    for candidate in (idx + 1, idx):
+        if 0 <= candidate < len(LEVELS):
+            level = LEVELS[candidate]
+            if calculate_cp(base, ivs, level) <= cp_cap:
+                return level
     return None
